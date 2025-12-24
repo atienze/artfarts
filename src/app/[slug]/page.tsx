@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { albums } from "../../data/albums";
 import { Photo, PhotoType } from "../components/photo";
 import { SelectedPhotoDialog } from "../components/selected-photo-dialog";
+import { Suspense } from "react";
 
 export function generateStaticParams() {
   return albums.map((album) => ({
@@ -29,7 +30,9 @@ export default function AlbumPage({ params }: { params: { slug: string } }) {
     <main className="min-h-screen p-4 md:p-10 max-w-7xl mx-auto">
       
       {/* 2. THE LIGHTBOX (Hidden by default, wakes up when URL has ?selected=...) */}
-      <SelectedPhotoDialog photos={photos} />
+      <Suspense fallback={null}>
+        <SelectedPhotoDialog photos={photos} />
+      </Suspense>
 
       {/* HEADER */}
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
