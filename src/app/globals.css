@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  text-rendering: geometricprecision;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --color-accent: var(--color-accent-light);
+  --color-bg: white;
+  background-color: var(--color-bg);
+}
+
+body {
+  min-height: 100vh;
+}
+
+.dark:root {
+  color: white;
+  --color-accent: var(--color-accent-dark);
+  --color-bg: black;
+}
