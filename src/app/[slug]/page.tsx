@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { albums } from "../../data/albums";
-import { Photo, PhotoType } from "../components/photo";
+import { Photo } from "../components/photo";
 import { SelectedPhotoDialog } from "../components/selected-photo-dialog";
 import { Suspense } from "react";
 
@@ -12,29 +12,29 @@ export function generateStaticParams() {
 }
 
 export default function AlbumPage({ params }: { params: { slug: string } }) {
+  // 1. Find the album that matches the URL
   const album = albums.find((a) => a.slug === params.slug);
 
   if (!album) {
     notFound();
   }
 
-  // 1. GENERATE THE PHOTO LIST
-  // (Eventually, you will import real photos here. For now, we still repeat the cover.)
-  const photos: PhotoType[] = Array.from({ length: album.photoCount }).map((_, i) => ({
-    id: i.toString(),
-    src: album.coverImage,
-    alt: `${album.title} - Photo ${i + 1}`,
+  // 2. USE YOUR REAL PHOTOS
+  // We simply grab the array you defined in albums.ts
+  const photos = album.photos.map(photo => ({
+    ...photo,
+    alt: `${album.title} photo` // Adds a default alt tag if you didn't add one in albums.ts
   }));
 
   return (
     <main className="min-h-screen p-4 md:p-10 max-w-7xl mx-auto">
       
-      {/* 2. THE LIGHTBOX (Hidden by default, wakes up when URL has ?selected=...) */}
+      {/* Lightbox (Click to view full screen) */}
       <Suspense fallback={null}>
         <SelectedPhotoDialog photos={photos} />
       </Suspense>
 
-      {/* HEADER */}
+      {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
         <div>
           <Link 
@@ -59,7 +59,7 @@ export default function AlbumPage({ params }: { params: { slug: string } }) {
         </div>
       </div>
 
-      {/* 3. THE GRID */}
+      {/* Photo Grid */}
       <div className="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8">
         {photos.map((photo) => (
           <Photo key={photo.id} photo={photo} />
