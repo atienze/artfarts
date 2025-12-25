@@ -19,7 +19,6 @@ export default function AlbumPage({ params }: { params: { slug: string } }) {
     notFound();
   }
 
-  // 2. USE YOUR REAL PHOTOS
   // We simply grab the array you defined in albums.ts
   const photos = album.photos.map(photo => ({
     ...photo,
